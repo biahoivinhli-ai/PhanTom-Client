@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: phantom-client
 
     steps:
       - name: Checkout
@@ -37,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: phantom-client-jar
-          path: build/libs/phantom-client-1.0.0.jar
+          path: phantom-client/build/libs/phantom-client-1.0.0.jar
           retention-days: 30
