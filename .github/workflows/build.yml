@@ -12,13 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract source
-        run: |
-          # phantom-client-fixed.zip must exist in repo root after checkout
-          # if it lives elsewhere (release asset, prior job), add a download step above
-          unzip phantom-client-fixed.zip
-          cp -r phantom-client/* .
-
       - name: Setup Java 25
         uses: actions/setup-java@v4
         with:
@@ -35,6 +28,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: phantom-client-jar
-          # glob — survives version bumps in build.gradle
           path: build/libs/phantom-client-*.jar
           retention-days: 30
