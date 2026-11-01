@@ -1,0 +1,54 @@
+plugins {
+	id 'fabric-loom' version '1.9.2'
+	id 'maven-publish'
+}
+
+version = '1.0.0'
+group = 'phantom'
+archivesBaseName = 'phantom-client'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://maven.fabricmc.net/' }
+}
+
+loom {
+	accessWidenerPath = file('src/main/resources/phantom.accesswidener')
+	mixin {
+		add sourceSets.main, 'phantom.refmap.json'
+	}
+}
+
+dependencies {
+	minecraft 'com.mojang:minecraft:26.1.2'
+	mappings loom.officialMojangMappings()
+	modImplementation 'net.fabricmc:fabric-loader:0.16.10'
+	modImplementation 'net.fabricmc.fabric-api:fabric-api:0.119.2+26.1.2'
+	implementation 'com.google.code.gson:gson:2.10.1'
+}
+
+processResources {
+	inputs.property 'version', project.version
+	filteringCharset 'UTF-8'
+	filesMatching('fabric.mod.json') {
+		expand 'version': project.version
+	}
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+	withSourcesJar()
+}
+
+jar {
+	from('LICENSE') {
+		rename { "${it}_phantom" }
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+	it.options.encoding = 'UTF-8'
+}
