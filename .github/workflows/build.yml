@@ -19,6 +19,9 @@ jobs:
           java-version: '25'
           cache: 'gradle'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Build
         run: |
           chmod +x gradlew
